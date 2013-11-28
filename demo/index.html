@@ -87,10 +87,11 @@ var test3 = $("#demo3").bubble({
         'microDirec': 'ah',
         'url': 'http://www.baidu.com',
         'content': ''
+    },
+    'pos': {
+        'left': 20,
+        'top': -50
     }
-}, {
-    'left': 20,
-    'top': -50
 });
 
 var test4 = $("#demo4").bubble({
@@ -102,20 +103,22 @@ var test4 = $("#demo4").bubble({
     'btnOpt': {
         'direc': 'r',
         'content': 'Click me!'
-    }
-}, {
-    'left': 100,
-    'top': 0
-}, {
-    'ui-bubble_close': function(wrap, e) {
-        alert("close");
-        wrap.hide();
     },
-    'ui-bubble_more': function() {
-        alert("more")
+    'pos': {
+        'left': 100,
+        'top': 0
     },
-    'ui-btn': function() {
-        alert("btn")
+    'callback': {
+        'ui-bubble_close': function(wrap, e) {
+            alert("close");
+            wrap.hide();
+        },
+        'ui-bubble_more': function() {
+            alert("more")
+        },
+        'ui-btn': function() {
+            alert("btn")
+        }
     }
 });
 
