@@ -6,11 +6,12 @@
  *     如果需要自定义样式，可在.ui-bubble-modId（对应modId）类名下来修改
  *     如果需要自定义z-index, 需要在样式后添加!important
  *     
- * 用法： var demo = $("#test").bubble(opt, pos, callback, fixObj);
+ * 用法： var demo = $("#test").bubble(opt);
  *        // demo对象为jQuery对象，指向生成的气泡对象
  *
  * 
- * opt = {
+ * 
+    opt = {
 		'wrapOpt': {
 			// 用于统计参数和自定义样式，为空时自动向上遍历获得最近的modId，可选，推荐必填
 			'modId': '', 
@@ -21,7 +22,9 @@
 			// 主体内容后面的额外内容，可为HTML字符串，可选
 			'after': '', 
 			// 主体内容，可为HTML字符串，必填
-			'content': '' 
+			'content': '',
+			// 气泡皮肤类名（ui-bubble--skin），可选
+			'skin': ''
 		}, // 以下为可选
 		'moreOpt': {
 			// 更多链接的位置，r,t,b,l. 默认值r。可选. 参考http://ui.i18n.pro/demo/#arrow
@@ -38,30 +41,27 @@
 			'direc': 'r',
 			// 按钮的内容，为空时不显示按钮，可选
 			'content': ''
-		}
-	}
-	
-	pos = {
-	    left: 20, // 气泡位置距离生成气泡元素左上角的距离，可选. 默认值0
-	    top: 10  // 可选. 默认值0
-	}
-
-	callback = {} // 事件绑定通过类名和方法的映射。当点击拥有类名的a标签时触发对应事件。可选
-	PS： callback = {
-        'ui-bubble_close': function() {
-            alert("close")
-        },
-        'ui-bubble_more': function() {
-            alert("more")
-        },
-        'ui-btn': function() {
-            alert("btn")
+		},
+		'pos': {
+	        'left': 20, // 气泡位置距离生成气泡元素左上角的距离，可选. 默认值0
+	        'top': 10  // 可选. 默认值0
+	    },
+	    'callback': {// 事件绑定通过类名和方法的映射。当点击拥有类名的a标签时触发对应事件。可选
+            'ui-bubble_close': function() {
+                alert("close")
+            },
+            'ui-bubble_more': function() {
+                alert("more")
+            },
+            'ui-btn': function() {
+                alert("btn")
+            }
         }
-    }
+	}
  *
  */
 (function() {
-	var _defaultTpl = '<div class="ui-bubble ui-bubble-#{direc} ui-bubble-#{modId}" log-mod="#{modId}" style="display: none;z-index: #{zIndex};" id="bubble#{modId}"><b class="ui-arrow ui-bubble_out"></b><b class="ui-arrow ui-bubble_in"></b><a href="#" class="ui-bubble_close" onclick="return false" hidefocus="true">×</a>#{before}<p class="ui-bubble_t">#{content}#{more}</p>#{btn}#{after}</div>',
+	var _defaultTpl = '<div class="ui-bubble ui-bubble-#{direc} ui-bubble-#{modId} #{skin}" log-mod="#{modId}" style="display: none;z-index: #{zIndex};" id="bubble#{modId}"><b class="ui-arrow ui-bubble_out"></b><b class="ui-arrow ui-bubble_in"></b><a href="#" class="ui-bubble_close" onclick="return false" hidefocus="true">×</a>#{before}<p class="ui-bubble_t">#{content}#{more}</p>#{btn}#{after}</div>',
 		_moreTpl = '<a href="#{url}" class="ui-bubble_more"><b class="ui-arrow ui-arrow-#{direc} ui-arrow-#{microDirec}"></b>#{content}</a>',
 		_btnTpl = '<span class="ui-btn_bar ui-btn_bar-#{direc}"><a href="#" onclick="return false" class="ui-btn" hidefocus="true">#{content}</a></span>';
 	var _defaultOpt = {
@@ -72,7 +72,8 @@
 			'after': '',
 			'content': '',
 			'more': '',
-			'btn': ''
+			'btn': '',
+			'skin': ''
 		},
 		'moreOpt': {
 			'direc': 'r',
@@ -83,7 +84,12 @@
 		'btnOpt': {
 			'direc': 'r',
 			'content': ''
-		}
+		}, 
+		'pos': {
+			'left': 0,
+			'top': 0
+		},
+		'callback': null
 	};
 
 	var _data = [];// 所有使用本组件生成的气泡都放于该数组中，用于位置同步
@@ -133,6 +139,7 @@
 
 		moreOpt && (wrapOpt.more = moreOpt.content ? helper.replaceTpl(_moreTpl, moreOpt) : "");
 		btnOpt && (wrapOpt.btn = btnOpt.content ? helper.replaceTpl(_btnTpl, btnOpt) : "");
+		wrapOpt["skin"] = wrapOpt["skin"] ? ("ui-bubble--" + wrapOpt["skin"]) : "";
 		return helper.replaceTpl(_defaultTpl, wrapOpt);
 	}
 	/**
@@ -152,7 +159,7 @@
 					opt[i].call(that, wrap, e);
 				}
 			}
-			// that.hasClass("ui-bubble_close") && wrap.hide();
+			that.hasClass("ui-bubble_close") && wrap.hide();
 		});
 	}
 
@@ -184,7 +191,7 @@
 	}
 
 	$.fn.extend({
-		bubble: function(opt, pos, callback) {
+		bubble: function(opt) {
 			var _wrap = $("#bubbleUIWrap"),
 				origin = $(this),
 				that = null;
@@ -201,8 +208,8 @@
 			_defaultOpt["wrapOpt"].zIndex = parseInt(0 + origin.css("z-index"), 10) + 1;
 			$(getHtml(_defaultOpt)).appendTo(_wrap);
 			that = _wrap.find(".ui-bubble-" + opt["wrapOpt"].modId);
-			bindEventHandler(that, callback);
-			_data.push(fixPosition(that, origin, pos));
+			bindEventHandler(that, _defaultOpt["callback"]);
+			_data.push(fixPosition(that, origin, _defaultOpt["pos"]));
 
 			return that;
 		}

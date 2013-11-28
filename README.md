@@ -59,10 +59,11 @@ var test3 = $("#demo3").bubble({
 		'microDirec': 'ah',
 		'url': 'http://www.baidu.com',
 		'content': ''
-	}
-}, {
-	'left': 20,
-	'top': 50
+	}, 
+	'pos': {
+	    'left': 20,
+	    'top': 50
+    }
 });
 
 var test4 = $("#demo4").bubble({
@@ -74,16 +75,17 @@ var test4 = $("#demo4").bubble({
 	'btnOpt': {
 		'direc': 'r', 
 		'content': 'Click me!'
-	}
-}, {
-	'ui-bubble_close': function(wrap, e) {
-		alert(wrap.css('width'))
-	},
-	'ui-bubble_more': function(wrap, e) {
-		alert(e.which)
-	},
-	'ui-btn': function(wrap, e) {
-		alert("btn")
+	}, 
+	'callback': {
+		'ui-bubble_close': function(wrap, e) {
+			alert(wrap.css('width'))
+		},
+		'ui-bubble_more': function(wrap, e) {
+			alert(e.which)
+		},
+		'ui-btn': function(wrap, e) {
+			alert("btn")
+		}
 	}
 });
 ```
@@ -93,7 +95,9 @@ var test4 = $("#demo4").bubble({
 
 |name  |  default | description |
 | ------------- |:-----:| -----:|
-| opt| {'wrapOpt': {'direc': 't'},'moreOpt': {'direc': 'r','microDirec': 'av','url': '#'},'btnOpt': {'direc': 'r'}}|气泡内容和位置信息|
+| wrapOpt| {'direc': 't'} |气泡内容和位置信息|
+| moreOpt| {'direc': 'r','microDirec': 'av','url': '#'} |气泡内容和位置信息|
+| btnOpt| {'direc': 'r'} |气泡内容和位置信息|
 | pos| {'left': 0,'top': 0}|气泡位置相对于生成气泡元素或fixObj左上角的偏移量|
 | callback| null|事件绑定通过类名和方法(可有两个参数，wrap：气泡对象；e：事件)的映射。当点击拥有类名的a标签时触发对应事件。可选|
 
@@ -107,6 +111,7 @@ var test4 = $("#demo4").bubble({
 | content| ""|主体内容，可为HTML字符串，必填|
 | before| ""|主体内容前面的额外内容，可为HTML字符串，可选|
 | after| ""|主体内容后面的额外内容，可为HTML字符串，可选|
+
 #### opt.moreOpt
 |name  |  default | description |
 | ------------- |:-----:| -----:|
@@ -114,13 +119,14 @@ var test4 = $("#demo4").bubble({
 | microDirec| "av"|更多链接align的位置，aa,av,ah.可选. 参考http://ui.i18n.pro/demo/#arrow |
 | url| "#"|更多链接的链接。可选|
 | content| ""|更多链接的内容，为空时不显示更多链接，可选|
+
 #### opt.btnOpt
 |name  |  default | description |
 | ------------- |:-----:| -----:|
 | direc| "r"|按钮的位置，l，r，可选. 参考http://ui.i18n.pro/demo/#button |
 | content| "t"|按钮的内容，为空时不显示按钮，可选|
 
-#### pos
+#### opt.pos
 |name  |  default | description |
 | ------------- |:-----:| -----:|
 | left| 0|气泡位置距离生成气泡元素左上角的距离，可选. 默认值0|
