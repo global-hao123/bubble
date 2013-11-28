@@ -151,8 +151,11 @@ var helper = require('common:widget/ui/helper/helper.js');
 	 * 
 	 */
 	function bindEventHandler(wrap, opt) {
-		if (!opt) return;
+		wrap.on("click", ".ui-bubble_close", function(e) {
+			wrap.hide();
+		});
 
+		if (!opt) return;
 		wrap.on("click", "a", function(e) {
 			var that = $(this),
 				i;
@@ -161,7 +164,7 @@ var helper = require('common:widget/ui/helper/helper.js');
 					opt[i].call(that, wrap, e);
 				}
 			}
-			that.hasClass("ui-bubble_close") && wrap.hide();
+			
 		});
 	}
 
