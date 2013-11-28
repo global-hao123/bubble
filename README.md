@@ -16,7 +16,7 @@ A bubble plugin for jQuery.
 
 ## Demo
 
-http://view.gitlab.pro/common-ui/bubble
+http://view.gitlab.pro/chenguangyin/bubble/raw/master/demo/index.html
 
 ## Usage
 
