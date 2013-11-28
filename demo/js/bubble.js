@@ -149,8 +149,11 @@
 	 * 
 	 */
 	function bindEventHandler(wrap, opt) {
-		if (!opt) return;
+		wrap.on("click", ".ui-bubble_close", function(e) {
+			wrap.hide();
+		});
 
+		if (!opt) return;
 		wrap.on("click", "a", function(e) {
 			var that = $(this),
 				i;
@@ -159,7 +162,7 @@
 					opt[i].call(that, wrap, e);
 				}
 			}
-			that.hasClass("ui-bubble_close") && wrap.hide();
+			//that.hasClass("ui-bubble_close") && wrap.hide();
 		});
 	}
 
