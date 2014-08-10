@@ -16,7 +16,7 @@ A bubble plugin for jQuery.
 
 ## Demo
 
-http://view.gitlab.pro/chenguangyin/bubble/raw/master/demo/index.html
+http://global-hao123.github.io/bubble/
 
 ## Usage
 
@@ -37,13 +37,13 @@ var test2 = $("#demo2").bubble({
 		'after': '<p style="color: gray;">after wrapOpt.content</p>'
 	},
 	'moreOpt': {
-		'direc': 'l', 
-		'microDirec': 'aa', 
-		'url': 'http://www.baidu.com', 
+		'direc': 'l',
+		'microDirec': 'aa',
+		'url': 'http://www.baidu.com',
 		'content': ''
 	},
 	'btnOpt': {
-		'direc': 'r', 
+		'direc': 'r',
 		'content': 'Click me!'
 	}
 });
@@ -59,7 +59,7 @@ var test3 = $("#demo3").bubble({
 		'microDirec': 'ah',
 		'url': 'http://www.baidu.com',
 		'content': ''
-	}, 
+	},
 	'pos': {
 	    'left': 20,
 	    'top': 50
@@ -73,9 +73,9 @@ var test4 = $("#demo4").bubble({
 		'direc': 'l'
 	},
 	'btnOpt': {
-		'direc': 'r', 
+		'direc': 'r',
 		'content': 'Click me!'
-	}, 
+	},
 	'callback': {
 		'ui-bubble_close': function(wrap, e) {
 			alert(wrap.css('width'))
